@@ -1,0 +1,59 @@
+name: release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  build:
+    runs-on: windows-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+          cache: pip
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pyinstaller>=6.20
+
+      - name: Build exe with PyInstaller
+        run: py -3.13 -m PyInstaller clicky.spec --noconfirm
+
+      - name: Install Inno Setup
+        run: choco install innosetup --no-progress -y
+
+      - name: Build installer
+        run: iscc installer\clicky.iss
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: Peep ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          files: installer/Output/Peep-Setup-*.exe
+          body: |
+            ## Peep ${{ github.ref_name }}
+
+            Voice-driven, screen-aware AI buddy for Windows.
+
+            ### Install
+            1. Download `Peep-Setup-${{ github.ref_name }}.exe` below
+            2. Run it — click **More info → Run anyway** on the SmartScreen prompt
+            3. Launch Peep from Start Menu and enter your API keys
+
+            ### What's needed
+            - [Anthropic](https://console.anthropic.com/settings/keys) key (or pick Ollama for local)
+            - [AssemblyAI](https://www.assemblyai.com/dashboard/signup) key
+            - [Cartesia](https://play.cartesia.ai/sign-in) key (or ElevenLabs)
