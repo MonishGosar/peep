@@ -1,0 +1,22 @@
+# Clicky Windows — Phase 1 dependencies
+# See DECISIONS.md for why each was chosen (especially faster-whisper over openai-whisper).
+
+# Core
+anthropic>=0.40.0          # Claude SDK — plain vision messages.stream() (NOT Computer Use; see DECISIONS.md 2026-04-12 evening 3)
+openai>=1.60.0             # OpenRouter OpenAI-compat endpoint for Gemini + future providers (model-agnostic BYOK routing via ai.create_ai_client)
+mss>=9.0.1                 # Multi-monitor screen capture, DPI-aware
+PyQt6>=6.7.0               # Transparent overlay + QPropertyAnimation
+pynput>=1.7.7              # Global hotkey with low-level hook suppression
+sounddevice>=0.5.0         # Audio capture (PCM16 16kHz for STT) + output playback (Cartesia PCM stream)
+numpy>=1.26.0              # Audio buffer manipulation
+assemblyai>=0.33.0         # Streaming STT (u3-rt-pro WebSocket + ForceEndpoint for PTT, ~150ms P50 finalization — matches Clicky)
+cartesia>=1.0.0            # Streaming TTS (Sonic-3 WebSocket, ~150-250ms TTFB, expressive "buddy" voice, async Python SDK)
+elevenlabs>=2.0            # Streaming TTS (Flash v2.5, ~75ms model TTFB) — opt-in alternative to Cartesia, Sprint 4
+Pillow>=10.4.0             # Image resize with LANCZOS, base64 encoding
+python-dotenv>=1.0.1       # Load ANTHROPIC_API_KEY + ASSEMBLYAI_API_KEY + CARTESIA_API_KEY from .env
+keyring>=25.0              # Windows Credential Manager (DPAPI per-user) for BYOK key storage post-Sprint-3 — auto-migrates from .env on first launch
+scipy>=1.11                # Mann-Whitney U + bootstrap CI for tools/bench_path_a.py (Path A latency measurement; NOT bundled in PyInstaller spec — script-only)
+
+# Dev / test
+pytest>=8.3.0              # Unit tests (target ~50-80 in Phase 1)
+pytest-mock>=3.14.0        # Mock Anthropic client, audio device, screen capture in tests

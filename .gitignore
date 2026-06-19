@@ -1,0 +1,78 @@
+# Secrets — never commit
+.env
+*.env.local
+* API.txt
+*API*
+*api*key*
+*API*KEY*
+*.key
+*_secret
+*_secret.*
+*.pem
+
+# Internal strategy / backstage docs (kept in repo dir for active development)
+LAUNCH.md
+
+# Internal project docs (kept locally for active development, not pushed to public repo)
+CLAUDE.md
+DECISIONS.md
+ROADMAP.md
+PRD.md
+docs/superpowers/
+
+# Defensive: if historical files ever get moved back into the repo
+Clicky Windows Archive/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.coverage
+htmlcov/
+*.egg-info/
+build/
+dist/
+venv/
+.venv/
+env/
+
+# Inno Setup compiled installer output (per-build artifact, not committed)
+installer/Output/
+
+# Debug / scratch files
+debug_*.jpg
+debug_*.png
+scratch_*
+*.log
+
+# Whisper model cache (downloaded on first run, large)
+whisper-cache/
+.cache/
+
+# OS
+Thumbs.db
+.DS_Store
+desktop.ini
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Claude Code local plugin settings (Superpowers install is local scope, gitignored by default)
+.claude/settings.local.json
+
+# Superpowers brainstorming visual-companion session files (mockups + events + server state)
+.superpowers/
+
+# Plan files (point-in-time, not part of project)
+.claude/plans/
+
+# Reference implementations from competitor repos (study-only, do not commit)
+_refs/
+
+# v0.2.0 smoke test report (local-only, user reviews before push)
+SMOKE_TEST_v0.2.0.md
